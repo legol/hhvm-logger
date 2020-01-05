@@ -9,7 +9,10 @@ class LogToFileHandler implements ILoggerHandler {
         string $message,
     ): void {
         $message = \HH\Lib\Str\format(
-            "%s: %s: %s\n",
+            "[%s] [%s] [%s]: %s\n",
+            (new \DateTime('now', new \DateTimeZone('UTC')))->format(
+                'Y-m-d H:i:s',
+            ),
             $logger->name(),
             (string)$level,
             $message,
