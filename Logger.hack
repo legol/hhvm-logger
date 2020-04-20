@@ -17,10 +17,16 @@ class Logger implements ILogger {
 
     private static function argsToString(?varray<mixed> $args): string {
         if (!\is_array($args)) {
-            return "";
+            return \var_export($args, true)
+                |> \HH\Lib\Str\replace($$, '\\\\', '\\')
+                |> \HH\Lib\Str\replace($$, '\\\'', '\'');
         }
 
-        return \HH\Lib\Vec\map($args, $arg ==> \json_encode($arg))
+        return \HH\Lib\Vec\map($args, $arg ==> {
+            return \var_export($arg, true)
+                |> \HH\Lib\Str\replace($$, '\\\\', '\\')
+                |> \HH\Lib\Str\replace($$, '\\\'', '\'');
+        })
             |> \HH\Lib\Str\join($$, ", ");
     }
 
